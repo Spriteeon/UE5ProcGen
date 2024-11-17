@@ -7,6 +7,7 @@
 /**
  * 
  */
+
 class UE5PROCGEN_API NoiseMapGeneration
 {
 private:
@@ -15,5 +16,5 @@ public:
 	NoiseMapGeneration();
 	~NoiseMapGeneration();
 
-	std::vector<std::vector<float>> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale);
+	std::vector<std::vector<float>> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY);
 };
