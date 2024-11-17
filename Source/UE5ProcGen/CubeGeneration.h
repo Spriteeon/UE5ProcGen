@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "NoiseMapGeneration.h"
+
 #include "CubeGeneration.generated.h"
 
 UCLASS()
@@ -19,6 +21,8 @@ private:
 	float absoluteChunkDepth;
 
 	int cubeSize = 100;
+
+	NoiseMapGeneration noiseMapGeneration;
 
 protected:
 	// Called when the game starts or when spawned

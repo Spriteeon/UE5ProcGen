@@ -30,6 +30,10 @@ void ACubeGeneration::Tick(float DeltaTime)
 
 void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 {
+	int scale = 2;
+
+	std::vector<std::vector<float>> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale);
+
 	for (int x = 0; x < chunkWidth; x++)
 	{
 		for (int y = 0; y < chunkDepth; y++)
@@ -38,7 +42,11 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.X = -(chunkCentre.X + ((absoluteChunkWidth - cubeSize) / 2)) + (x * cubeSize);
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
-			spawnLocation.Z = FMath::RandRange(-1, 1) * cubeSize;
+			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between -1 and 1
+			spawnLocation.Z = std::round(noiseMap[x][y] * scale ) * cubeSize;
+
+			/*if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Height: %f"), spawnLocation.Z));*/
 
 			PlaceCube(spawnLocation);
 		}
