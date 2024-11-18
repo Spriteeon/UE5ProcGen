@@ -11,6 +11,8 @@ ACubeGeneration::ACubeGeneration()
 
 	absoluteChunkWidth = chunkWidth * cubeSize;
 	absoluteChunkDepth = chunkDepth * cubeSize;
+
+	wavesList = { FVector(5297.0f,1.0f,1.0f),FVector(8452.0f,0.5f,2.0f) ,FVector(5932.0f,0.25f,4.0f) };
 }
 
 // Called when the game starts or when spawned
@@ -29,13 +31,13 @@ void ACubeGeneration::Tick(float DeltaTime)
 
 void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 {
-	int scale = 31;
+	int scale = 11;
 	int maxHeight = 10;
 
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
 
-	std::vector<std::vector<float>> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY);
+	std::vector<std::vector<float>> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
 
 	for (int x = 0; x < chunkWidth; x++)
 	{

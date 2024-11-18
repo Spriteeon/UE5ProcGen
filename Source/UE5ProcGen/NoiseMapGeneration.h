@@ -16,5 +16,5 @@ public:
 	NoiseMapGeneration();
 	~NoiseMapGeneration();
 
-	std::vector<std::vector<float>> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY);
+	std::vector<std::vector<float>> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves);
 };
