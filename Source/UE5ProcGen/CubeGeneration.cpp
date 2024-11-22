@@ -32,7 +32,7 @@ void ACubeGeneration::Tick(float DeltaTime)
 void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 {
 	int scale = 11;
-	int maxHeight = 10;
+	int maxHeight = 30;
 
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
@@ -48,10 +48,10 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
-			spawnLocation.Z = std::round(noiseMap[x][y] * maxHeight) * cubeSize;
+			spawnLocation.Z = std::round(cubeHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight) * cubeSize;
 
-			/*if (GEngine)
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Height: %f"), spawnLocation.Z));*/
+			if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Height: %f"), spawnLocation.Z));
 
 			PlaceCube(spawnLocation);
 		}

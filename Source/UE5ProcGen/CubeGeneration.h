@@ -23,7 +23,6 @@ private:
 	int cubeSize = 100;
 
 	NoiseMapGeneration noiseMapGeneration;
-
 	TArray<FVector> wavesList;
 
 protected:
@@ -39,11 +38,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Cube Spawning")
 		void GenerateChunk(FVector chunkCentre);
-
 	UFUNCTION(BlueprintCallable, Category = "Cube Spawning")
 		void PlaceCube(FVector spawnLocation);
 
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> cubeClass;
+	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
+		UCurveFloat* cubeHeightCurve;
 
 };
