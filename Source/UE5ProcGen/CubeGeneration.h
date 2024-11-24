@@ -14,8 +14,8 @@ class UE5PROCGEN_API ACubeGeneration : public AActor
 	GENERATED_BODY()
 
 private:
-	int chunkWidth = 32;
-	int chunkDepth = 32;
+	int chunkWidth = 16;
+	int chunkDepth = 16;
 
 	float absoluteChunkWidth;
 	float absoluteChunkDepth;

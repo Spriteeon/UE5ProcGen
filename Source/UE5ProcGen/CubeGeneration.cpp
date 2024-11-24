@@ -39,6 +39,8 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 
 	std::vector<std::vector<float>> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
 
+	//int numCubes = 0;
+
 	for (int x = 0; x < chunkWidth; x++)
 	{
 		for (int y = 0; y < chunkDepth; y++)
@@ -48,14 +50,24 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
-			spawnLocation.Z = std::round(cubeHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight) * cubeSize;
+			int cubeLevel = std::round(cubeHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight);
+			spawnLocation.Z = cubeLevel * cubeSize;
 
 			if (GEngine)
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Height: %f"), spawnLocation.Z));
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Surface Height: %f"), spawnLocation.Z));
 
-			PlaceCube(spawnLocation);
+			for (int i = cubeLevel; i >= 0; i--)
+			{
+				PlaceCube(spawnLocation);
+				spawnLocation.Z -= cubeSize;
+				//numCubes++;
+			}
 		}
 	}
+
+	/*if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Height: %i"), numCubes));*/
+
 }
 
 void ACubeGeneration::PlaceCube(FVector spawnLocation)
