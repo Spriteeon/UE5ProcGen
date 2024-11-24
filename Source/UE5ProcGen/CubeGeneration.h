@@ -36,12 +36,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Cube Spawning")
+	UFUNCTION(BlueprintCallable, Category = "Cube Chunk Spawning")
 		void GenerateChunk(FVector chunkCentre);
 	UFUNCTION(BlueprintCallable, Category = "Cube Spawning")
 		void PlaceCube(FVector spawnLocation);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
 		TSubclassOf<AActor> cubeClass;
 	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
 		UCurveFloat* cubeHeightCurve;
