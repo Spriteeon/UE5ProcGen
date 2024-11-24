@@ -6,21 +6,23 @@
 #include "GameFramework/Actor.h"
 #include "NoiseMapGeneration.h"
 
-#include "CubeGeneration.generated.h"
+#include "TerrainGeneration.generated.h"
 
 UCLASS()
-class UE5PROCGEN_API ACubeGeneration : public AActor
+class UE5PROCGEN_API ATerrainGeneration : public AActor
 {
 	GENERATED_BODY()
 
 private:
 	int chunkWidth = 16;
 	int chunkDepth = 16;
-
 	float absoluteChunkWidth;
 	float absoluteChunkDepth;
 
 	int cubeSize = 100;
+
+	int scale;
+	int maxHeight;
 
 	NoiseMapGeneration noiseMapGeneration;
 	TArray<FVector> wavesList;
@@ -31,7 +33,7 @@ protected:
 
 public:	
 	// Sets default values for this actor's properties
-	ACubeGeneration();
+	ATerrainGeneration();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -44,6 +46,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
 		TSubclassOf<AActor> cubeClass;
 	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
-		UCurveFloat* cubeHeightCurve;
+		UCurveFloat* terrainHeightCurve;
 
 };

@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CubeGeneration.h"
+#include "TerrainGeneration.h"
 
 // Sets default values
-ACubeGeneration::ACubeGeneration()
+ATerrainGeneration::ATerrainGeneration()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,28 +12,28 @@ ACubeGeneration::ACubeGeneration()
 	absoluteChunkWidth = chunkWidth * cubeSize;
 	absoluteChunkDepth = chunkDepth * cubeSize;
 
+	scale = 11;
+	maxHeight = 30;
+
 	wavesList = { FVector(5297.0f,1.0f,1.0f),FVector(8452.0f,0.5f,2.0f) ,FVector(5932.0f,0.25f,4.0f) };
 }
 
 // Called when the game starts or when spawned
-void ACubeGeneration::BeginPlay()
+void ATerrainGeneration::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ACubeGeneration::Tick(float DeltaTime)
+void ATerrainGeneration::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void ACubeGeneration::GenerateChunk(FVector chunkCentre)
+void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
 {
-	int scale = 11;
-	int maxHeight = 30;
-
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
 
@@ -50,12 +50,13 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
-			int cubeLevel = std::round(cubeHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight);
+			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight);
 			spawnLocation.Z = cubeLevel * cubeSize;
 
 			if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Surface Height: %f"), spawnLocation.Z));
 
+			// Loop for placing cubes underneath the surface cubes, down to height Z = 0
 			for (int i = cubeLevel; i >= 0; i--)
 			{
 				PlaceCube(spawnLocation);
@@ -70,7 +71,7 @@ void ACubeGeneration::GenerateChunk(FVector chunkCentre)
 
 }
 
-void ACubeGeneration::PlaceCube(FVector spawnLocation)
+void ATerrainGeneration::PlaceCube(FVector spawnLocation)
 {
 	FTransform spawnTransform;
 	spawnTransform.SetLocation(spawnLocation);
