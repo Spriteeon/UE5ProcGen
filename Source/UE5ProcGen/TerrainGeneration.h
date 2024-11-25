@@ -14,38 +14,41 @@ class UE5PROCGEN_API ATerrainGeneration : public AActor
 	GENERATED_BODY()
 
 private:
-	int chunkWidth = 16;
-	int chunkDepth = 16;
+	int chunkWidth;
+	int chunkDepth;
 	float absoluteChunkWidth;
 	float absoluteChunkDepth;
 
-	int cubeSize = 100;
+	int cubeSize;
 
 	int scale;
 	int maxHeight;
 
-	NoiseMapGeneration* noiseMapGeneration;
-	TArray<FVector> wavesList;
+	UPROPERTY()
+		UNoiseMapGeneration* noiseMapGeneration;
+	
+	UPROPERTY()
+		UCurveFloat* terrainHeightCurve;
+
+	TArray<FVector> waves;
+	TSubclassOf<AActor> cubeClass;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Sets default values for this actor's properties
 	ATerrainGeneration();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves = {});
+
 	UFUNCTION(BlueprintCallable, Category = "Cube Chunk Spawning")
-		void GenerateChunk(FVector chunkCentre);
+		void GenerateTerrainChunk(FVector chunkCentre);
 	UFUNCTION(BlueprintCallable, Category = "Cube Spawning")
 		void PlaceCube(FVector spawnLocation);
-
-	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
-		TSubclassOf<AActor> cubeClass;
-	UPROPERTY(EditAnywhere, Category = "Cube Spawning")
-		UCurveFloat* terrainHeightCurve;
 
 };

@@ -31,5 +31,6 @@ public:
 private:
 	int width = 0;
 	int depth = 0;
-	TArray<ElementType> trueArray;
+	UPROPERTY()
+		TArray<ElementType> trueArray;
 };

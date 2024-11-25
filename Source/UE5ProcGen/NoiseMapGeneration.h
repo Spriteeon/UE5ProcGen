@@ -5,15 +5,19 @@
 #include "CoreMinimal.h"
 #include "utils/Tarray2D.h"
 
-class UE5PROCGEN_API NoiseMapGeneration : public UClass
-{
-private:
+#include "NoiseMapGeneration.generated.h"
 
+UCLASS()
+class UE5PROCGEN_API UNoiseMapGeneration : public UObject
+{
+	GENERATED_BODY()
+
+private:
 	TArray2D<float> noiseMap;
 
 public:
-	NoiseMapGeneration();
-	~NoiseMapGeneration();
+	UNoiseMapGeneration();
+	~UNoiseMapGeneration();
 
 	void GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves = {});
 

@@ -2,15 +2,15 @@
 
 #include "NoiseMapGeneration.h"
 
-NoiseMapGeneration::NoiseMapGeneration()
+UNoiseMapGeneration::UNoiseMapGeneration()
 {
 }
 
-NoiseMapGeneration::~NoiseMapGeneration()
+UNoiseMapGeneration::~UNoiseMapGeneration()
 {
 }
 
-void NoiseMapGeneration::GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves)
+void UNoiseMapGeneration::GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves)
 {
 	noiseMap.Init(0.0f, mapWidth, mapDepth);
 

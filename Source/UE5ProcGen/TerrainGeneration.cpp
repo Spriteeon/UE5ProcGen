@@ -5,24 +5,43 @@
 // Sets default values
 ATerrainGeneration::ATerrainGeneration()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	absoluteChunkWidth = chunkWidth * cubeSize;
-	absoluteChunkDepth = chunkDepth * cubeSize;
+	ConstructorHelpers::FClassFinder<AActor> cubeBPClassFinder(TEXT("/Game/Blueprints/BP_cube"));
+	check(cubeBPClassFinder.Succeeded());
+	cubeClass = cubeBPClassFinder.Class;
 
-	scale = 11;
-	maxHeight = 30;
+	ConstructorHelpers::FObjectFinder<UCurveFloat> heightCurveObjectFinder(TEXT("/Game/Blueprints/C_TerrainHeight"));
+	check(heightCurveObjectFinder.Succeeded());
+	terrainHeightCurve = heightCurveObjectFinder.Object;
 
-	wavesList = { FVector(5297.0f,1.0f,1.0f),FVector(8452.0f,0.5f,2.0f) ,FVector(5932.0f,0.25f,4.0f) };
-
-	noiseMapGeneration = NewObject<NoiseMapGeneration>();
+	noiseMapGeneration = CreateDefaultSubobject<UNoiseMapGeneration>(TEXT("Noise Map"));
 }
 
 // Called when the game starts or when spawned
 void ATerrainGeneration::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//noiseMapGeneration = NewObject<UNoiseMapGeneration>();
+	terrainHeightCurve = NewObject<UCurveFloat>();
+}
+
+void ATerrainGeneration::Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves)
+{
+	cubeSize = _cubeSize;
+
+	chunkWidth = _chunkWidth;
+	chunkDepth = _chunkDepth;
+
+	absoluteChunkWidth = chunkWidth * cubeSize;
+	absoluteChunkDepth = chunkDepth * cubeSize;
+
+	scale = _scale;
+	maxHeight = _maxHeight;
+
+	waves = _waves;
 }
 
 // Called every frame
@@ -32,12 +51,15 @@ void ATerrainGeneration::Tick(float DeltaTime)
 
 }
 
-void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
+void ATerrainGeneration::GenerateTerrainChunk(FVector chunkCentre)
 {
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
 
-	noiseMapGeneration->GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
+	if (noiseMapGeneration)
+		noiseMapGeneration->GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, waves);
+	else
+		return;
 
 	//int numCubes = 0;
 
