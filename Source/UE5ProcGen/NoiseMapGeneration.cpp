@@ -10,9 +10,10 @@ NoiseMapGeneration::~NoiseMapGeneration()
 {
 }
 
-std::vector<std::vector<float>> NoiseMapGeneration::GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves)
+TArray2D<float> NoiseMapGeneration::GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves)
 {
-	std::vector<std::vector<float>> noiseMap(mapWidth, std::vector<float>(mapDepth, 0));
+	TArray2D<float> noiseMap;
+	noiseMap.Init(0.0f, mapWidth, mapDepth);
 
 	for (int x = 0; x < mapWidth; x++)
 	{
@@ -43,7 +44,7 @@ std::vector<std::vector<float>> NoiseMapGeneration::GeneratePerlinNoiseMap(int m
 				noise = (FMath::PerlinNoise2D(FVector2D(sampleX, sampleY)) + 1) / 2;
 			}
 
-			noiseMap[x][y] = noise;
+			noiseMap.SetElement(x, y, noise);
 
 			/*if (GEngine)
 				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Noise: %f"), noise));*/

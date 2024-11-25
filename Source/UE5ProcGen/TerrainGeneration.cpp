@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TerrainGeneration.h"
 
 // Sets default values
@@ -37,7 +36,7 @@ void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
 
-	std::vector<std::vector<float>> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
+	TArray2D<float> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
 
 	//int numCubes = 0;
 
@@ -50,7 +49,7 @@ void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
-			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMap[x][y]) * maxHeight);
+			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMap.GetElement(x, y)) * maxHeight);
 			spawnLocation.Z = cubeLevel * cubeSize;
 
 			if (GEngine)

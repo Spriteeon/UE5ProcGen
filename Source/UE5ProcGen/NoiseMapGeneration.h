@@ -3,10 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-/**
- * 
- */
+#include "utils/Tarray2D.h"
 
 class UE5PROCGEN_API NoiseMapGeneration
 {
@@ -16,5 +13,5 @@ public:
 	NoiseMapGeneration();
 	~NoiseMapGeneration();
 
-	std::vector<std::vector<float>> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves = {});
+	TArray2D<float> GeneratePerlinNoiseMap(int mapWidth, int mapDepth, float scale, float offsetX, float offsetY, TArray<FVector> waves = {});
 };
