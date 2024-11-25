@@ -33,6 +33,9 @@ private:
 
 	int cubeSize = 100;
 
+	float absChunkWidth;
+	float absChunkDepth;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

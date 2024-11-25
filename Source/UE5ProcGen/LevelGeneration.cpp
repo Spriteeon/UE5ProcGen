@@ -16,7 +16,10 @@ void ALevelGeneration::BeginPlay()
 {
 	Super::BeginPlay();
 
-	terrainGeneration->Init(cubeSize, chunkWidth, chunkDepth, scale, maxHeight, waves);
+	absChunkWidth = chunkWidth * cubeSize;
+	absChunkDepth = chunkDepth * cubeSize;
+
+	terrainGeneration->Init(cubeSize, chunkWidth, chunkDepth, absChunkWidth, absChunkDepth, scale, maxHeight, waves);
 }
 
 // Called every frame

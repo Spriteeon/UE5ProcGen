@@ -16,8 +16,8 @@ class UE5PROCGEN_API ATerrainGeneration : public AActor
 private:
 	int chunkWidth;
 	int chunkDepth;
-	float absoluteChunkWidth;
-	float absoluteChunkDepth;
+	float absChunkWidth;
+	float absChunkDepth;
 
 	int cubeSize;
 
@@ -44,7 +44,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves = {});
+	void Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _absChunkWidth, int _absChunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves = {});
 
 	UFUNCTION(BlueprintCallable, Category = "Cube Chunk Spawning")
 		void GenerateTerrainChunk(FVector chunkCentre);

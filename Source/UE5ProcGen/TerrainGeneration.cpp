@@ -28,15 +28,15 @@ void ATerrainGeneration::BeginPlay()
 	terrainHeightCurve = NewObject<UCurveFloat>();
 }
 
-void ATerrainGeneration::Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves)
+void ATerrainGeneration::Init(int _cubeSize, int _chunkWidth, int _chunkDepth, int _absChunkWidth, int _absChunkDepth, int _scale, int _maxHeight, TArray<FVector> _waves)
 {
 	cubeSize = _cubeSize;
 
 	chunkWidth = _chunkWidth;
 	chunkDepth = _chunkDepth;
 
-	absoluteChunkWidth = chunkWidth * cubeSize;
-	absoluteChunkDepth = chunkDepth * cubeSize;
+	absChunkWidth = _absChunkWidth;
+	absChunkDepth = _absChunkDepth;
 
 	scale = _scale;
 	maxHeight = _maxHeight;
@@ -68,8 +68,8 @@ void ATerrainGeneration::GenerateTerrainChunk(FVector chunkCentre)
 		for (int y = 0; y < chunkDepth; y++)
 		{
 			FVector spawnLocation;
-			spawnLocation.X = -(chunkCentre.X + ((absoluteChunkWidth - cubeSize) / 2)) + (x * cubeSize);
-			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
+			spawnLocation.X = -(chunkCentre.X + ((absChunkWidth - cubeSize) / 2)) + (x * cubeSize);
+			spawnLocation.Y = -(chunkCentre.Y + ((absChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
 			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMapGeneration->GetNoiseValue(x, y)) * maxHeight);
