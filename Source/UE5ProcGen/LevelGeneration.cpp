@@ -28,7 +28,7 @@ void ALevelGeneration::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	timer++;
-	if (timer > 5 && !hasPlaced)
+	if (timer > 1 && !hasPlaced)
 	{
 		PlaceChunk(FVector(0.0f, 0.0f, 0.0f));
 		hasPlaced = true;
