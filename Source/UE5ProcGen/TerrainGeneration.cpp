@@ -15,13 +15,14 @@ ATerrainGeneration::ATerrainGeneration()
 	maxHeight = 30;
 
 	wavesList = { FVector(5297.0f,1.0f,1.0f),FVector(8452.0f,0.5f,2.0f) ,FVector(5932.0f,0.25f,4.0f) };
+
+	noiseMapGeneration = NewObject<NoiseMapGeneration>();
 }
 
 // Called when the game starts or when spawned
 void ATerrainGeneration::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -36,7 +37,7 @@ void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
 	float offsetX = -(chunkCentre.X / cubeSize);
 	float offsetY = -(chunkCentre.Y / cubeSize);
 
-	TArray2D<float> noiseMap = noiseMapGeneration.GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
+	noiseMapGeneration->GeneratePerlinNoiseMap(chunkWidth, chunkDepth, scale, offsetX, offsetY, wavesList);
 
 	//int numCubes = 0;
 
@@ -49,7 +50,7 @@ void ATerrainGeneration::GenerateChunk(FVector chunkCentre)
 			spawnLocation.Y = -(chunkCentre.Y + ((absoluteChunkDepth - cubeSize) / 2)) + (y * cubeSize);
 
 			// Calculate Cube Heights, needs to be multiples of cubeSize, noiseMap values are currently between 0 and 1
-			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMap.GetElement(x, y)) * maxHeight);
+			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMapGeneration->GetNoiseValue(x, y)) * maxHeight);
 			spawnLocation.Z = cubeLevel * cubeSize;
 
 			if (GEngine)

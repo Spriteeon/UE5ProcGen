@@ -24,7 +24,7 @@ private:
 	int scale;
 	int maxHeight;
 
-	NoiseMapGeneration noiseMapGeneration;
+	NoiseMapGeneration* noiseMapGeneration;
 	TArray<FVector> wavesList;
 
 protected:
