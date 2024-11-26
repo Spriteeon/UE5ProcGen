@@ -75,8 +75,8 @@ void ATerrainGeneration::GenerateTerrainChunk(FVector chunkCentre)
 			int cubeLevel = std::round(terrainHeightCurve->GetFloatValue(noiseMapGeneration->GetNoiseValue(x, y)) * maxHeight);
 			spawnLocation.Z = cubeLevel * cubeSize;
 
-			if (GEngine)
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Surface Height: %f"), spawnLocation.Z));
+			/*if (GEngine)
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Cube Surface Height: %f"), spawnLocation.Z));*/
 
 			// Loop for placing cubes underneath the surface cubes, down to height Z = 0
 			for (int i = cubeLevel; i >= 0; i--)

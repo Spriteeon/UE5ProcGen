@@ -31,6 +31,13 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Terrain Generation")
 		TArray<FVector> waves;
 
+	UPROPERTY(EditAnywhere, Category = "Level Generation")
+		int numOfChunksWidth;
+	UPROPERTY(EditAnywhere, Category = "Level Generation")
+		int numOfChunksDepth;
+
+	FVector chunksCentreLocation;
+
 	int cubeSize = 100;
 
 	float absChunkWidth;
